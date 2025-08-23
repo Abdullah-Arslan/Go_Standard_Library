@@ -100,7 +100,7 @@ func main() {
 
 //5. delete()
 
-//Map’ten anahtar silmek için kullanılır.
+//Map’ten anahtar (bilgi) silmek için kullanılır.
 package main
 
 import "fmt"

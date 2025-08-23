@@ -48,7 +48,78 @@ func main() {
     }
 }
 
+/*
+Go’da *EOF* (End Of File), *dosya veya veri kaynağından okuma sırasında verinin bittiğini* göstermek için kullanılan bir işarettir.
 
+Go standart kütüphanesinde bu genelde io.EOF sabiti ile temsil edilir.
+
+---
+
+### 📌 Temel Mantık
+
+* Bir dosyadan, ağ bağlantısından veya buffer’dan okuma yaptığında:
+
+  * Eğer veri varsa → okunur.
+  * Eğer *okunacak veri kalmamışsa* → EOF döner.
+
+Yani EOF bir *hata gibi görünen ama aslında normal bir durumdur*.
+
+---
+
+### Örnek: Dosya Okuma
+
+go
+package main
+
+import (
+	"fmt"
+	"io"
+	"os"
+)
+
+func main() {
+	f, err := os.Open("dosya.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	buf := make([]byte, 10)
+	for {
+		n, err := f.Read(buf)
+		if err == io.EOF {
+			fmt.Println("\nDosyanın sonuna ulaşıldı.")
+			break
+		}
+		if err != nil {
+			fmt.Println("Hata:", err)
+			break
+		}
+		fmt.Print(string(buf[:n]))
+	}
+}
+
+
+👉 Burada f.Read(buf) çağrısı dosya sonuna gelince io.EOF döndürüyor.
+Bu da döngüyü sonlandırmak için kullanılıyor.
+
+---
+
+✅ *Özet:*
+Go’da *EOF, dosya/stream okurken **artık veri kalmadığını* ifade eder.
+
+* Hata değildir, *normal bir durumdur*.
+* Genellikle if err == io.EOF { break } şeklinde kontrol edilir.
+
+---
+✅ Açıklama:
+
+strings.NewReader bir io.Reader döndürür.
+
+Read metodu ile veri okunur.
+
+Veri bitince io.EOF döner ve döngü kırılır.
+*/
 
 //✅ Örnek: .tar Arşivini Açma
 
