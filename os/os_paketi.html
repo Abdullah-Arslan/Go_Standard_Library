@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Go 'os' Paketi Fonksiyonları — Açıklamalar ve Örnekler</title>
+<style>
+  :root { --bg:#0b1020; --card:#11182b; --text:#e8eaf0; --muted:#a9b3c7; --accent:#7aa2f7; --border:#23314f; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Apple Color Emoji,Segoe UI Emoji;background:var(--bg);color:var(--text);}
+  header{padding:32px 24px 16px; border-bottom:1px solid var(--border); background:linear-gradient(180deg, #0b1020, #0b1020cc, transparent)}
+  h1{margin:0;font-size:28px;line-height:1.2}
+  p.sub{margin:8px 0 0;color:var(--muted)}
+  main{padding:24px; max-width:1200px; margin:0 auto;}
+  .table-wrap{background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow:0 10px 24px rgba(0,0,0,.25)}
+  table{width:100%; border-collapse:separate; border-spacing:0}
+  thead th{position:sticky; top:0; background:#0f172a; color:#dbeafe; text-align:left; padding:14px 16px; font-weight:700; letter-spacing:.3px; border-bottom:1px solid var(--border);}
+  tbody td{padding:12px 16px; vertical-align:top; border-bottom:1px solid var(--border);}
+  tbody tr:nth-child(odd){background:#0f1528}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; background:#0a0f1f; padding:2px 6px; border:1px solid #1f2a44; border-radius:6px; display:inline-block}
+  .hint{margin:16px 0 0; font-size:14px; color:var(--muted)}
+  footer{padding:24px; color:var(--muted); text-align:center}
+  .badge{display:inline-block; padding:6px 10px; border:1px solid var(--border); border-radius:999px; margin-right:8px; background:#0c1428; color:#c7d2fe; font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="badge">Go Stdlib</div>
+  <h1>Go 'os' Paketi Fonksiyonları — Açıklamalar ve Örnekler</h1>
+  <p class="sub">Fonksiyon adı, kısa açıklama ve pratik örnek kod parçaları</p>
+</header>
+<main>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Fonksiyon</th><th>Açıklama</th><th>Örnek Kod</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>os.Create(name)</code></td><td>Yeni dosya oluşturur, yazma modunda açar</td><td><code>f, _ := os.Create(&quot;a.txt&quot;)</code></td></tr>
+<tr><td><code>os.Open(name)</code></td><td>Dosyayı okuma modunda açar</td><td><code>f, _ := os.Open(&quot;a.txt&quot;)</code></td></tr>
+<tr><td><code>os.OpenFile(name, flag, perm)</code></td><td>Dosyayı özel modlarla açar</td><td><code>f, _ := os.OpenFile(&quot;a.txt&quot;, os.O_RDWR, 0644)</code></td></tr>
+<tr><td><code>os.Remove(name)</code></td><td>Dosyayı siler</td><td><code>os.Remove(&quot;a.txt&quot;)</code></td></tr>
+<tr><td><code>os.Rename(old, new)</code></td><td>Dosyayı yeniden adlandırır/taşır</td><td><code>os.Rename(&quot;a.txt&quot;, &quot;b.txt&quot;)</code></td></tr>
+<tr><td><code>os.Stat(name)</code></td><td>Dosya bilgilerini döndürür</td><td><code>info, _ := os.Stat(&quot;a.txt&quot;)</code></td></tr>
+<tr><td><code>os.ReadFile(name)</code></td><td>Dosya içeriğini []byte olarak okur</td><td><code>data, _ := os.ReadFile(&quot;a.txt&quot;)</code></td></tr>
+<tr><td><code>os.WriteFile(name, data, perm)</code></td><td>Dosyaya []byte yazar</td><td><code>os.WriteFile(&quot;a.txt&quot;, []byte(&quot;Merhaba&quot;), 0644)</code></td></tr>
+<tr><td><code>os.Mkdir(name, perm)</code></td><td>Yeni bir dizin oluşturur</td><td><code>os.Mkdir(&quot;dir&quot;, 0755)</code></td></tr>
+<tr><td><code>os.MkdirAll(path, perm)</code></td><td>İç içe dizinler oluşturur</td><td><code>os.MkdirAll(&quot;a/b/c&quot;, 0755)</code></td></tr>
+<tr><td><code>os.RemoveAll(path)</code></td><td>Dizini ve içindekileri siler</td><td><code>os.RemoveAll(&quot;dir&quot;)</code></td></tr>
+<tr><td><code>os.Chdir(dir)</code></td><td>Çalışma dizinini değiştirir</td><td><code>os.Chdir(&quot;/tmp&quot;)</code></td></tr>
+<tr><td><code>os.Getwd()</code></td><td>Mevcut çalışma dizinini döndürür</td><td><code>dir, _ := os.Getwd()</code></td></tr>
+<tr><td><code>os.ReadDir(name)</code></td><td>Dizin içeriğini listeler</td><td><code>entries, _ := os.ReadDir(&quot;.&quot;)</code></td></tr>
+<tr><td><code>os.Getenv(key)</code></td><td>Ortam değişkeni değerini alır</td><td><code>os.Getenv(&quot;PATH&quot;)</code></td></tr>
+<tr><td><code>os.Setenv(key, value)</code></td><td>Ortam değişkeni tanımlar</td><td><code>os.Setenv(&quot;API_KEY&quot;, &quot;123&quot;)</code></td></tr>
+<tr><td><code>os.Unsetenv(key)</code></td><td>Ortam değişkenini siler</td><td><code>os.Unsetenv(&quot;API_KEY&quot;)</code></td></tr>
+<tr><td><code>os.Environ()</code></td><td>Tüm ortam değişkenlerini döndürür</td><td><code>envs := os.Environ()</code></td></tr>
+<tr><td><code>os.StartProcess(name, argv, attr)</code></td><td>Yeni işlem başlatır</td><td><code>os.StartProcess(&quot;/bin/ls&quot;, []string{&quot;ls&quot;, &quot;-l&quot;}, &amp;os.ProcAttr{})</code></td></tr>
+<tr><td><code>os.FindProcess(pid)</code></td><td>PID ile işlem bulur</td><td><code>p, _ := os.FindProcess(1234)</code></td></tr>
+<tr><td><code>os.Getpid()</code></td><td>Mevcut işlem PID'si</td><td><code>pid := os.Getpid()</code></td></tr>
+<tr><td><code>os.Getppid()</code></td><td>Parent PID</td><td><code>ppid := os.Getppid()</code></td></tr>
+<tr><td><code>os.ErrNotExist</code></td><td>Dosya/dizin bulunamadı hatası</td><td><code>errors.Is(err, os.ErrNotExist)</code></td></tr>
+<tr><td><code>os.ErrExist</code></td><td>Dosya zaten var hatası</td><td><code>errors.Is(err, os.ErrExist)</code></td></tr>
+<tr><td><code>os.ErrPermission</code></td><td>İzin hatası</td><td><code>errors.Is(err, os.ErrPermission)</code></td></tr>
+<tr><td><code>os.ErrInvalid</code></td><td>Geçersiz argüman hatası</td><td><code>errors.Is(err, os.ErrInvalid)</code></td></tr>
+<tr><td><code>os.Exit(code)</code></td><td>Programı belirtilen kod ile sonlandırır</td><td><code>os.Exit(0)</code></td></tr>
+<tr><td><code>os.Args</code></td><td>Komut satırı argümanlarını döndürür</td><td><code>fmt.Println(os.Args)</code></td></tr>
+<tr><td><code>os.Executable()</code></td><td>Çalışan binary yolunu döndürür</td><td><code>exe, _ := os.Executable()</code></td></tr>
+<tr><td><code>os.Hostname()</code></td><td>Sistemin hostname bilgisini döndürür</td><td><code>host, _ := os.Hostname()</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hint">İpucu: HTML dosyasını bir tarayıcıda açarak arama (Ctrl/Cmd+F) ile hızlıca fonksiyon bulun.</p>
+</main>
+<footer>Otomatik üretilmiştir — Go 'os' Paketi Fonksiyonları — Açıklamalar ve Örnekler</footer>
+</body>
+</html>

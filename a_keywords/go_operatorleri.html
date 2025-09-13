@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Go Programlama Dili - Operatörler (Detaylı Örnekli)</title>
+<style>
+  :root { --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#22d3ee; --codebg:#0b1022; }
+  html,body{margin:0;padding:0;background:#0b1020;color:var(--text);font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px;}
+  header{position:sticky;top:0;background:linear-gradient(180deg, rgba(11,16,32,.95), rgba(11,16,32,.75));backdrop-filter: blur(8px);z-index:10;}
+  header .inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.06);}
+  h1{font-size:28px;margin:0;color:#e2e8f0}
+  .badge{font-size:12px;color:#0b1020;background:var(--accent);padding:4px 8px;border-radius:999px;font-weight:700}
+  nav{display:flex;gap:8px;flex-wrap:wrap}
+  nav a{font-size:14px;color:#cbd5e1;text-decoration:none;padding:6px 10px;border:1px solid rgba(255,255,255,.08);border-radius:10px}
+  nav a:hover{border-color:var(--accent);color:#e2e8f0}
+  section{background:rgba(255,255,255,.03);padding:20px;border:1px solid rgba(255,255,255,.06);border-radius:16px;margin:18px 0}
+  h2{font-size:20px;margin:0 0 8px 0}
+  p{margin:8px 0;color:#cbd5e1}
+  pre{background:var(--codebg);color:#e2e8f0;padding:14px;border-radius:12px;overflow:auto;border:1px solid rgba(255,255,255,.06)}
+  code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  table{width:100%;border-collapse:collapse;margin:8px 0 12px 0;border:1px solid rgba(255,255,255,.06)} 
+  th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left}
+  th{color:#e5e7eb;background:rgba(255,255,255,.04)}
+  .muted{color:var(--muted)}
+  .toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin:12px 0}
+  .toc a{display:block;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:10px 12px;border-radius:12px;text-decoration:none;color:#cbd5e1}
+  .toc a:hover{border-color:var(--accent);color:#e2e8f0}
+  footer{color:#94a3b8;text-align:center;margin:24px 0}
+</style>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <h1>Go Operatörleri <span class="badge">Detaylı &amp; Örnekli</span></h1>
+    <nav>
+      <a href="#aritmetik">Aritmetik</a>
+      <a href="#atama">Atama</a>
+      <a href="#karsilastirma">Karşılaştırma</a>
+      <a href="#mantiksal">Mantıksal</a>
+      <a href="#bitwise">Bit Düzeyi</a>
+      <a href="#pointer">Pointer</a>
+      <a href="#ozel">Özel</a>
+      <a href="#incdec">++ / --</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <h2>Hızlı Bakış</h2>
+  <p class="muted">Tüm operatörleri tek tabloda görmek için:</p>
+  <table>
+    <thead><tr><th>Grup</th><th>Operatörler</th></tr></thead>
+    <tbody>
+      <tr><td>Aritmetik</td><td><code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code></td></tr>
+      <tr><td>Atama</td><td><code>=</code> <code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code> <code>%=</code> <code>&amp;=</code> <code>|=</code> <code>^=</code> <code>&lt;&lt;=</code> <code>&gt;&gt;=</code></td></tr>
+      <tr><td>Karşılaştırma</td><td><code>==</code> <code>!=</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td></tr>
+      <tr><td>Mantıksal</td><td><code>&amp;&amp;</code> <code>||</code> <code>!</code></td></tr>
+      <tr><td>Bit Düzeyi</td><td><code>&amp;</code> <code>|</code> <code>^</code> <code>&amp;^</code> <code>&lt;&lt;</code> <code>&gt;&gt;</code></td></tr>
+      <tr><td>Pointer</td><td><code>&amp;</code> (adres), <code>*</code> (dereference)</td></tr>
+      <tr><td>Özel</td><td><code>&lt;-</code> (channel), <code>...</code> (variadic/slice spread)</td></tr>
+      <tr><td>Artır/Azalt</td><td><code>i++</code>, <code>i--</code> (yalnızca postfix)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="aritmetik">
+  <h2>Aritmetik Operatörler</h2>
+  <pre><code>package main
+
+import "fmt"
+
+func main() {
+    x, y := 10, 3
+    fmt.Println("x + y =", x+y) // 13
+    fmt.Println("x - y =", x-y) // 7
+    fmt.Println("x * y =", x*y) // 30
+    fmt.Println("x / y =", x/y) // 3  (tam sayı bölme)
+    fmt.Println("x % y =", x%y) // 1
+}</code></pre>
+</section>
+
+<section id="atama">
+  <h2>Atama Operatörleri</h2>
+  <pre><code>package main
+
+import "fmt"
+
+func main() {
+    x := 5
+
+    x += 3
+    fmt.Println("x += 3 -&gt;", x) // 8
+
+    x -= 2
+    fmt.Println("x -= 2 -&gt;", x) // 6
+
+    x *= 4
+    fmt.Println("x *= 4 -&gt;", x) // 24
+
+    x /= 6
+    fmt.Println("x /= 6 -&gt;", x) // 4
+
+    x %= 3
+    fmt.Println("x %= 3 -&gt;", x) // 1
+
+    x &amp;= 3
+    fmt.Println("x &amp;= 3 -&gt;", x)
+
+    x |= 2
+    fmt.Println("x |= 2 -&gt;", x)
+
+    x ^= 1
+    fmt.Println("x ^= 1 -&gt;", x)
+
+    x &lt;&lt;= 1
+    fmt.Println("x &lt;&lt;= 1 -&gt;", x)
+
+    x &gt;&gt;= 1
+    fmt.Println("x &gt;&gt;= 1 -&gt;", x)
+}</code></pre>
+</section>
+
+<section id="karsilastirma">
+  <h2>Karşılaştırma Operatörleri</h2>
+  <pre><code>package main
+
+import "fmt"
+
+func main() {
+    x, y := 10, 20
+    fmt.Println("x == y:", x == y) // false
+    fmt.Println("x != y:", x != y) // true
+    fmt.Println("x &gt; y:",  x &gt; y)  // false
+    fmt.Println("x &lt; y:",  x &lt; y)  // true
+    fmt.Println("x &gt;= y:", x &gt;= y) // false
+    fmt.Println("x &lt;= y:", x &lt;= y) // true
+}</code></pre>
+</section>
+
+<section id="mantiksal">
+  <h2>Mantıksal Operatörler</h2>
+  <pre><code>package main
+
+import "fmt"
+
+func main() {
+    a, b := true, false
+    fmt.Println("a &amp;&amp; b:", a &amp;&amp; b) // false
+    fmt.Println("a || b:",  a || b)     // true
+    fmt.Println("!a:",      !a)         // false
+}</code></pre>
+</section>
+
+<section id="bitwise">
+  <h2>Bit Düzeyinde Operatörler</h2>
+  <pre><code>package main
+
+import "fmt"
+
+func main() {
+    x, y := 6, 3 // 6 = 110, 3 = 011 (ikilik)
+
+    fmt.Println("x &amp; y =",  x&amp;y)   // 2 (010)
+    fmt.Println("x | y =",  x|y)   // 7 (111)
+    fmt.Println("x ^ y =",  x^y)   // 5 (101)
+    fmt.Println("x &amp;^ y =", x&amp;^y) // 4 (100)
+
+    fmt.Println("x &lt;&lt; 1 =", x&lt;&lt;1) // 12 (1100)
+    fmt.Println("x &gt;&gt; 1 =", x&gt;&gt;1) // 3  (011)
+}</code></pre>
+</section>
+
+<section id="pointer">
+  <h2>Pointer (Adres) Operatörleri</h2>
+  <pre><code>package main
+
+import "fmt"
+
+func main() {
+    x := 42
+    p := &amp;x // adresini al
+    fmt.Println("p =", p)   // örn: 0xc00000a0a8
+    fmt.Println("*p =", *p) // 42
+
+    *p = 100                // pointer üzerinden değeri değiştir
+    fmt.Println("x =", x)   // 100
+}</code></pre>
+</section>
+
+<section id="ozel">
+  <h2>Özel Operatörler</h2>
+  <h3>Kanal &lt;-</h3>
+  <pre><code>package main
+
+import "fmt"
+
+func main() {
+    ch := make(chan int)
+    go func() { ch &lt;- 10 }()
+    val := &lt;-ch
+    fmt.Println("kanaldan:", val) // 10
+}</code></pre>
+
+  <h3>Slice genişletme ...</h3>
+  <pre><code>package main
+
+import "fmt"
+
+func sum(nums ...int) int {
+    s := 0
+    for _, n := range nums { s += n }
+    return s
+}
+
+func main() {
+    a := []int{1,2,3,4}
+    fmt.Println("sum:", sum(a...)) // 10
+}</code></pre>
+</section>
+
+<section id="incdec">
+  <h2>Artırma / Azaltma (Yalnızca Postfix)</h2>
+  <pre><code>package main
+
+import "fmt"
+
+func main() {
+    i := 5
+    i++
+    fmt.Println("i++ -&gt;", i) // 6
+    i--
+    fmt.Println("i-- -&gt;", i) // 5
+    // Not: ++i veya --i (prefix) Go'da yoktur.
+}</code></pre>
+</section>
+
+<footer>
+  Bu sayfa, eğitim amaçlı olarak Go operatörlerini pratik örneklerle özetler.
+</footer>
+
+</div>
+</body>
+</html>
